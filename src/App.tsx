@@ -77,7 +77,11 @@ const projects = [
 
 
 // --- NEW COMPONENT: Interactive Profile Image ---
-const InteractiveImage = ({ src }) => {
+interface InteractiveImageProps {
+  src: string;
+}
+
+const InteractiveImage: React.FC<InteractiveImageProps> = ({ src }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -96,9 +100,10 @@ const InteractiveImage = ({ src }) => {
       <img 
         src={src}
         alt="Matan Shemesh Profile"
-        onError={(e) => {
-            e.target.onerror = null; 
-            e.target.src = PLACEHOLDER_PROFILE_IMAGE_URL; 
+        onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+            const img = e.currentTarget;
+            img.onerror = null; // prevent infinite loop
+            img.src = PLACEHOLDER_PROFILE_IMAGE_URL;
         }}
         className={`w-full h-full object-cover transition-all duration-500 ease-out`}
         style={{
@@ -128,7 +133,6 @@ const BrainAnimation = () => {
   
   // Custom styles for slightly faster spin
   const spinFaster = { animationDuration: '10s' };
-  const spinSlow = { animationDuration: '20s' };
 
   return (
     <div className="relative w-full h-[340px] flex justify-center items-center overflow-hidden rounded-xl">
@@ -325,14 +329,14 @@ const CustomCursor = () => {
   const [hoverText, setHoverText] = useState('');
 
   useEffect(() => {
-    const onMouseMove = (e) => {
+    const onMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
     
     // We listen to the whole window for mouseover/mouseout events
     // to detect interaction with elements that have the 'interactive' class or are standard interactive tags.
-    const onMouseOver = (e) => {
-      const target = e.target.closest('a, button, .interactive');
+    const onMouseOver = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a, button, .interactive') as HTMLElement | null;
       if (target) {
         setHovered(true);
         // Get custom hover text from data-cursor attribute
@@ -649,11 +653,16 @@ const Resume = () => {
                         I enjoy transforming hard technical challenges into clean, efficient, and maintainable solutions.
                     </p>
 
-                    <div className="mt-12" id="resume">
-                        <button className="group flex items-center gap-4 border border-white px-8 py-4 hover:bg-white hover:text-black transition-all duration-300 interactive" data-cursor="DOWNLOAD">
-                            <span className="font-bold tracking-widest text-sm">DOWNLOAD RESUME</span>
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                        </button>
+                    <div className="mt-12 inline-block" id="resume">
+                        <a 
+                          href="/resume.pdf"
+                          download="Matan-Shemesh-Resume.pdf" 
+                          className="group w-auto flex items-center gap-3 border border-white px-6 py-3 hover:bg-white hover:text-black transition-all duration-300 interactive"
+                          data-cursor="DOWNLOAD"
+                        >
+                          <span className="font-bold tracking-widest text-sm">DOWNLOAD RESUME</span>
+                          <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                        </a>
                     </div>
                 </div>
 
