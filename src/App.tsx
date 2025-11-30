@@ -8,7 +8,6 @@ const PLACEHOLDER_PROFILE_IMAGE_URL = "https://placehold.co/400x600/1F2937/F3F4F
 const PROFILE_IMAGE_URL = profileImage; 
 
 const projects = [
-// ... (projects array remains the same)
   {
     id: 1,
     client: "CORE SYSTEMS LAB",
@@ -87,7 +86,8 @@ const InteractiveImage: React.FC<InteractiveImageProps> = ({ src }) => {
 
   return (
     <div
-      className="relative w-full max-w-xs overflow-hidden interactive" // ***שינוי כאן: הסרת h-full ו-max-h-[660px]***
+      // MODIFICATION: Removed fixed height classes (h-full max-h-[660px]) for mobile responsiveness
+      className="relative w-full max-w-xs overflow-hidden interactive" 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-cursor="IMAGE"
@@ -139,7 +139,7 @@ const BrainAnimation = () => {
     <div className="relative w-full h-[340px] flex justify-center items-center overflow-hidden rounded-xl">
 
       {/* Background Grid - Flicker Effect on Opacity */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.2]" xmlns="http://www.w3.org/2000/svg">
+      <svg className="absolute inset-0 w-full h-full opacity-[0.3]" xmlns="http://www.w3.org/2000/svg">
         {/* vertical lines - slight flicker effect */}
         {[...Array(20)].map((_, i) => (
           <line
@@ -316,10 +316,6 @@ const BrainAnimation = () => {
       <div className="absolute left-[10%] top-[10%] w-1.5 h-1.5 bg-blue-500/70 rounded-full animate-pulse-slow" style={{ animationDuration: '0.9s', animationDelay: '0.4s' }}></div>
 
 
-      {/* Label */}
-      <p className="absolute bottom-4 left-4 text-[10px] font-mono-tech tracking-widest text-neutral-600">
-        NEURAL.NETWORK.V06.GRADIENT_CORE
-      </p>
     </div>
   );
 };
@@ -361,7 +357,8 @@ const CustomCursor = () => {
   }, []);
 
   return (
-    <>
+    // MODIFICATION: Added wrapping div with 'hidden md:block' to hide the custom cursor on mobile
+    <div className="hidden md:block">
       {/* Small dot - disappears on hover */}
       <div 
         className="fixed pointer-events-none z-[100] bg-blue-400 mix-blend-difference rounded-full transition-transform duration-75 ease-out"
@@ -400,7 +397,7 @@ const CustomCursor = () => {
           className="fixed pointer-events-none z-[90] bg-white/5"
           style={{ top: position.y, left: 0, height: '1px', width: '100vw', transform: 'translateY(-50%)' }}
       />
-    </>
+    </div>
   );
 };
 
@@ -433,8 +430,8 @@ const Navigation = () => {
 
         {/* Mobile Menu Overlay */}
         {isOpen && (
-        <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center gap-8 md:hidden">
-            <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 text-white">
+        <div className="fixed inset-0 bg-black z-50 flex flex-col items-center justify-center gap-8 md:hidden overflow-y-auto pt-20"> {/* MODIFICATION: Added overflow-y-auto and pt-20 to ensure scrolling and vertical spacing */}
+            <button onClick={() => setIsOpen(false)} className="absolute top-10 right-6 text-white"> {/* MODIFICATION: Adjusted top position to top-10 */}
                 <X className="w-8 h-8" />
             </button>
             {['WORK', 'ABOUT', 'RESUME', 'CONTACT'].map((item) => (
@@ -455,6 +452,7 @@ const Navigation = () => {
 
 const Hero = () => {
   return (
+    // MODIFICATION: Changed h-screen to min-h-screen and added pb-32 for better mobile scroll space
     <section className="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden border-b border-neutral-900 pb-32">
       {/* Background Tech Elements */}
       <div className="absolute inset-0 z-0">
@@ -467,6 +465,7 @@ const Hero = () => {
       <div className="z-10 w-full h-full max-w-7xl pt-32 pb-16 px-6 md:px-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* Column 1: Interactive Image (Left) - Adjusted to justify-start */}
+        {/* MODIFICATION: Reduced pt-8 to pt-4 on mobile and removed lg:h-full */}
         <div className="lg:col-span-1 flex justify-center lg:justify-start items-start pt-4 lg:pt-0" data-cursor="IMAGE">
             <InteractiveImage src={PROFILE_IMAGE_URL} />
         </div>
@@ -507,6 +506,7 @@ const Hero = () => {
         </div>
         
         {/* Column 3: Brain Animation (Right) - Hidden on smaller screens */}
+        {/* MODIFICATION: Added md:hidden to hide the animation on tablets too */}
         <div className="lg:col-span-1 hidden md:hidden lg:flex">
             <BrainAnimation />
         </div>
@@ -584,7 +584,7 @@ const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
                             href={project.gitUrl} 
                             className="flex items-center text-xs font-mono-tech tracking-widest text-white border border-blue-600 px-4 py-2 rounded-full bg-blue-600 hover:bg-blue-500 transition-all duration-300 interactive"
                             data-cursor="VIEW CODE"
-                            target="_blank" // פתיחה בטאב חדש
+                            target="_blank" // Open in new tab
                             rel="noopener noreferrer"
                         >
                             <Code className="w-4 h-4 mr-2" />
