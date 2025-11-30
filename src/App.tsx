@@ -4,7 +4,6 @@ import { ArrowRight, Menu, X, ChevronDown, Aperture, Github, Linkedin, Mail, Fil
 // *Note: The exact relative path depends on your project structure. Assuming assets/profile.jpg is correct.*
 import profileImage from './assets/profile.jpg'; 
 
-// --- שינוי #2: שימוש בתמונה המיובאת ---
 const PLACEHOLDER_PROFILE_IMAGE_URL = "https://placehold.co/400x600/1F2937/F3F4F6?text=Your+Profile+Photo"; 
 const PROFILE_IMAGE_URL = profileImage; 
 
