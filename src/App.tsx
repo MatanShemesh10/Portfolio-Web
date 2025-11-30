@@ -8,6 +8,7 @@ const PLACEHOLDER_PROFILE_IMAGE_URL = "https://placehold.co/400x600/1F2937/F3F4F
 const PROFILE_IMAGE_URL = profileImage; 
 
 const projects = [
+// ... (projects array remains the same)
   {
     id: 1,
     client: "CORE SYSTEMS LAB",
@@ -86,7 +87,7 @@ const InteractiveImage: React.FC<InteractiveImageProps> = ({ src }) => {
 
   return (
     <div
-      className="relative w-full max-w-xs h-full max-h-[660px] overflow-hidden interactive" // Decreased max-width to max-w-xs
+      className="relative w-full max-w-xs overflow-hidden interactive" // ***שינוי כאן: הסרת h-full ו-max-h-[660px]***
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       data-cursor="IMAGE"
@@ -138,7 +139,7 @@ const BrainAnimation = () => {
     <div className="relative w-full h-[340px] flex justify-center items-center overflow-hidden rounded-xl">
 
       {/* Background Grid - Flicker Effect on Opacity */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.3]" xmlns="http://www.w3.org/2000/svg">
+      <svg className="absolute inset-0 w-full h-full opacity-[0.2]" xmlns="http://www.w3.org/2000/svg">
         {/* vertical lines - slight flicker effect */}
         {[...Array(20)].map((_, i) => (
           <line
@@ -454,7 +455,7 @@ const Navigation = () => {
 
 const Hero = () => {
   return (
-    <section className="relative h-screen w-full flex flex-col justify-center items-center overflow-hidden border-b border-neutral-900">
+    <section className="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden border-b border-neutral-900 pb-32">
       {/* Background Tech Elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-blue-900/10 rounded-full blur-[120px]" />
@@ -466,7 +467,7 @@ const Hero = () => {
       <div className="z-10 w-full h-full max-w-7xl pt-32 pb-16 px-6 md:px-10 grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* Column 1: Interactive Image (Left) - Adjusted to justify-start */}
-        <div className="lg:col-span-1 flex justify-center lg:justify-start items-start pt-8 lg:pt-0 lg:h-full " data-cursor="IMAGE">
+        <div className="lg:col-span-1 flex justify-center lg:justify-start items-start pt-4 lg:pt-0" data-cursor="IMAGE">
             <InteractiveImage src={PROFILE_IMAGE_URL} />
         </div>
         
@@ -506,7 +507,7 @@ const Hero = () => {
         </div>
         
         {/* Column 3: Brain Animation (Right) - Hidden on smaller screens */}
-        <div className="lg:col-span-1 hidden lg:flex">
+        <div className="lg:col-span-1 hidden md:hidden lg:flex">
             <BrainAnimation />
         </div>
       </div>
