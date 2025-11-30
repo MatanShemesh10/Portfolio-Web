@@ -1,0 +1,102 @@
+/* --- Global Styles & Tailwind Directives --- */
+/* Import external fonts */
+@import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Manrope:wght=300;400;600&family=JetBrains+Mono:wght=400;700&display=swap');
+
+/* Apply Tailwind base, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Global Variables and Base Styles (Mirroring React's globalStyles) */
+:root {
+  --bg-color: #050505;
+  --text-primary: #f0f0f0;
+  --text-secondary: #888888;
+  --accent: #3399ff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Manrope', sans-serif;
+  overflow-x: hidden;
+  /* We keep the custom cursor logic in React/JS for better responsiveness, 
+     but ensure the default cursor is hidden for consistency. */
+  cursor: none; 
+}
+
+/* Custom class definitions (for the effects used in the React component) */
+.font-mono-tech {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.stutter-motion {
+  animation-timing-function: steps(10) !important;
+}
+
+.grain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 40;
+  background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-ticker {
+  animation: ticker 20s infinite linear;
+}
+
+@keyframes stutterReveal {
+  0% { opacity: 0; transform: translateY(20px); }
+  25% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 0.5; transform: translateY(5px); }
+  75% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.reveal-stutter {
+  animation: stutterReveal 0.8s steps(5) forwards;
+}
+
+/* --- NEW: CSS for Brain Animation (Neuro Mesh) --- */
+/* Simple pulse effect for the "neurons" */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+.animate-pulse-slow {
+  animation: pulse 4s infinite ease-in-out;
+}
+
+.brain-mesh {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  /* Ensure the SVG is responsive within its container */
+}
